@@ -43,10 +43,9 @@ def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./C
         output_dir=versioned_output_dir,
         per_device_train_batch_size=kwargs.get('batch_size', 4),
         num_train_epochs=float(kwargs.get("epochs", 1)),  # Ensure it's a float
-        logging_steps=kwargs.get("logging_steps", 100),
-        save_steps=kwargs.get("save_steps", 100),
-        eval_strategy="steps",
-        eval_steps=kwargs.get("eval_steps", 500),
+        logging_strategy="epoch",
+        save_strategy="epoch",
+        eval_strategy="epoch",
         save_total_limit=kwargs.get("save_limit", 2),
         predict_with_generate=True,
         fp16=False,
