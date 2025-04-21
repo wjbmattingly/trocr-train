@@ -14,6 +14,7 @@ def main():
     parser.add_argument('--epochs', type=int, default=1, help="Number of training epochs")
     parser.add_argument('--logging_steps', type=int, default=100, help="Logging steps")
     parser.add_argument('--save_steps', type=int, default=100, help="Save steps")
+    parser.add_argument('--eval_steps', type=int, default=500, help="Evaluation steps")
     parser.add_argument('--save_limit', type=int, default=2, help="Total number of checkpoints to keep")
     parser.add_argument('--device', type=str, default='mps:0', help="Device to use for training")
     parser.add_argument('--version', type=str, default=None, help="Version of the model to save")
