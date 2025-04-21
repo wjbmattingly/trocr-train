@@ -34,7 +34,7 @@ def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./C
     train_dataset, test_dataset = load_data.split_dataset(dataset)
 
     # Load your custom processor and model
-    processor = TrOCRProcessor.from_pretrained('yiddish_processor')
+    processor = TrOCRProcessor.from_pretrained('wjbmattingly/yiddish_processor')
     model = VisionEncoderDecoderModel.from_pretrained('wjbmattingly/trocr-yiddish')
 
     # Update model to use your tokenizer
