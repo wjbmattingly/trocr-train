@@ -45,7 +45,7 @@ def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./C
         num_train_epochs=float(kwargs.get("epochs", 1)),  # Ensure it's a float
         logging_steps=kwargs.get("logging_steps", 100),
         save_steps=kwargs.get("save_steps", 100),
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=kwargs.get("eval_steps", 500),
         save_total_limit=kwargs.get("save_limit", 2),
         predict_with_generate=True,
