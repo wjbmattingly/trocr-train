@@ -1,0 +1,6 @@
+datasets
+torch
+scikit-learn
+Pillow
+numpy
+transformers
