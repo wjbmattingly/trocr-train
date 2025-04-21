@@ -26,7 +26,10 @@ def main():
 
     # Convert argparse Namespace to dictionary
     kwargs = vars(args)
-
+    
+    # Debug print to see if epochs is in kwargs
+    print(f"Command line arguments: {kwargs}")
+    print(f"Epochs parameter: {kwargs.get('epochs')}")
 
     train_model.train_model(**kwargs)
 

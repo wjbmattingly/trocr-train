@@ -36,10 +36,13 @@ def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./C
     model.config.length_penalty = 2.0
     model.config.num_beams = 4
     
+    # Print the epochs value to debug
+    print(f"Training for {kwargs.get('epochs', 1)} epochs")
+    
     training_args = Seq2SeqTrainingArguments(
         output_dir=versioned_output_dir,
         per_device_train_batch_size=kwargs.get('batch_size', 4),
-        num_train_epochs=kwargs.get("epochs", 1),
+        num_train_epochs=float(kwargs.get("epochs", 1)),  # Ensure it's a float
         logging_steps=kwargs.get("logging_steps", 100),
         save_steps=kwargs.get("save_steps", 100),
         # evaluation_strategy="steps",
