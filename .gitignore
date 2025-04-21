@@ -1,3 +1,5 @@
+yiddish_processor/
+yiddish_tokenizer/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

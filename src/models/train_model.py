@@ -32,11 +32,23 @@ def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./C
         
     dataset = load_data.load_data(**kwargs)
     train_dataset, test_dataset = load_data.split_dataset(dataset)
+
+    # Load your custom processor and model
+    processor = TrOCRProcessor.from_pretrained('yiddish_processor')
+    model = VisionEncoderDecoderModel.from_pretrained('wjbmattingly/trocr-yiddish')
+
+    # Update model to use your tokenizer
+    model.config.decoder_start_token_id = processor.tokenizer.cls_token_id
+    model.config.pad_token_id = processor.tokenizer.pad_token_id
+    model.config.eos_token_id = processor.tokenizer.sep_token_id
+
+    # Resize model's token embeddings to match your tokenizer
+    model.decoder.resize_token_embeddings(len(processor.tokenizer))
     
-    processor = TrOCRProcessor.from_pretrained(from_pretrained_model)
+    # processor = TrOCRProcessor.from_pretrained(from_pretrained_model)
     train_dataloader, eval_dataloader = load_data.create_dataloaders(train_dataset, test_dataset, processor, kwargs.get('batch_size', 4))
     
-    model = VisionEncoderDecoderModel.from_pretrained(from_pretrained_model)
+    # model = VisionEncoderDecoderModel.from_pretrained(from_pretrained_model)
     model.config.decoder_start_token_id = processor.tokenizer.cls_token_id
     model.config.pad_token_id = processor.tokenizer.pad_token_id
     model.config.vocab_size = model.config.decoder.vocab_size
