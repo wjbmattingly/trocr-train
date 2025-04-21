@@ -12,13 +12,24 @@ def get_next_version(output_dir):
     return next_version
 
 # https://github.com/NielsRogge/Transformers-Tutorials/blob/master/TrOCR/Fine_tune_TrOCR_on_IAM_Handwriting_Database_using_Seq2SeqTrainer.ipynb
-def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./Caroline", device='cpu', compute_cer_flag=False, version=None, **kwargs):
+def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./Caroline", device='cuda:0', compute_cer_flag=False, version=None, **kwargs):
     os.makedirs(output_dir, exist_ok=True)
     
     if version is None:
         version = get_next_version(output_dir)
     versioned_output_dir = os.path.join(output_dir, f"v{version}")
-
+    
+    # Use device from kwargs if provided, otherwise use the default
+    if 'device' in kwargs:
+        device = kwargs['device']
+    
+    print(f"Using device: {device}")
+    
+    # Check CUDA availability
+    if device.startswith('cuda') and not torch.cuda.is_available():
+        print("CUDA is not available, falling back to CPU")
+        device = 'cpu'
+        
     dataset = load_data.load_data(**kwargs)
     train_dataset, test_dataset = load_data.split_dataset(dataset)
     
@@ -50,6 +61,9 @@ def train_model(output_dir="output", checkpoint=None, from_pretrained_model="./C
         predict_with_generate=True,
         fp16=False,
     )
+    
+    # Move model to the correct device
+    model = model.to(device)
     
     trainer = Seq2SeqTrainer(
         model=model,
